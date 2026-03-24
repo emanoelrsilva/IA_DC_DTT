@@ -1,21 +1,29 @@
 # Modulo 1
 from google import genai
 from api_key import GEMINIAPIKEY
+from prompt import prompt_agent_module_1
 
 client = genai.Client(api_key=GEMINIAPIKEY)
 
-response = client.models.generate_content(
-    model="gemini-3-flash-preview",
-    contents="Como fazer check in no sistema ASFFGT da empresa?",
-    config={
-            "system_instruction": (
-                "Você é um assistente corporativo com tom formal e objetivo."
-                " Responda sempre em português do Brasil, de forma objetiva."
-                " Não invente informações."
-            ),
-            "temperature": 0.6,
-            #"max_output_tokens": 200
-            }
-)
 
-print(response.text)
+print("Bem Vindo ao Assitente ASP!!!")
+request = input("Digite sua dúvida (ou 'sair' para encerrar) => ")
+
+while request.lower() != "sair":
+    response = client.models.generate_content(
+        model="gemini-3-flash-preview",
+        contents=request,
+        config={
+                "system_instruction": (
+                    prompt_agent_module_1
+                ),
+                "temperature": 0.6,
+                #"max_output_tokens": 200
+                }
+    )
+    print(response.text)
+    request = input("Digite sua dúvida (ou 'sair' para encerrar) => ")
+
+print("Até Mais!")
+
+
